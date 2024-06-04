@@ -9,14 +9,22 @@ serversocket.listen(5)
 while True:
     connection, address = serversocket.accept()
     buf = connection.recv(1024)
-    if len(buf) > 0 and buf == 0x1:
-        cpu = get_cpu_percent()
-        mem = get_memory_usage()
-        conns = get_connections()
-        send_data = {
-            'cpu': cpu,
-            'memory': mem,
-            'conns': conns
-        }
-        connection.send(json.dumps(send_data).encode())
+    if len(buf) == 0:
+        connection.close()
+        continue
+    try:
+        buf = buf.decode()
+        assert buf == 'data'
+    except Exception:
+        connection.close()
+        continue
+    cpu = get_cpu_percent()
+    mem = get_memory_usage()
+    conns = get_connections()
+    send_data = {
+        'cpu': cpu,
+        'memory': mem,
+        'conns': conns
+    }
+    connection.send(json.dumps(send_data).encode())
     connection.close()
