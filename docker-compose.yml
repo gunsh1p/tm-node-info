@@ -1,0 +1,5 @@
+services:
+  socket:
+    build: .
+    network_mode: host
+    restart: always
