@@ -6,8 +6,8 @@ def get_cpu_percent() -> float:
 def get_memory_usage() -> tuple:
     data = psutil.virtual_memory()
     percent = data.percent
-    used = round(data.used / 2**33, 1)
-    total = round(data.total / 2**33, 1)
+    used = round(data.used / 2**20, 1)
+    total = round(data.total / 2**20, 1)
     
     return (percent, used, total)
 
