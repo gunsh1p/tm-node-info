@@ -12,6 +12,7 @@ def server_program():
     server_socket.listen(10)
     while True:
         conn, address = server_socket.accept()
+        print(f'Connection from {address}')
         while True:
             data = conn.recv(1024)
             if not data or data != 0x1:
