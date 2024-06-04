@@ -1,5 +1,4 @@
 import asyncio
-import json
 
 async def main(host, port):
     reader, writer = await asyncio.open_connection(host, port)

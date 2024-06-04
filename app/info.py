@@ -18,5 +18,30 @@ def get_vpn_connections():
             vpn_connections.append(conn)
     return vpn_connections
 
+def get_network_speed() -> dict:
+    net_io = psutil.net_io_counters()
+    bytes_sent = net_io.bytes_sent
+    bytes_recv = net_io.bytes_recv
+
+    speed_sent = bytes_sent / 1024
+    speed_recv = bytes_recv / 1024
+
+    if speed_sent > 1024:
+        speed_sent /= 1024
+        speed_recv /= 1024
+        unit = "MB/s"
+    else:
+        unit = "KB/s"
+    return {
+        'sent': f'{speed_sent:.2f} {unit}',
+        'recieved': f'{speed_recv:.2f} {unit}'
+    }
+
 def get_connections() -> int:
     return len(get_vpn_connections())
+
+def get_network_usage() -> tuple:
+    connections = get_connections()
+    speed = get_network_speed()
+    
+    return (connections, speed)
