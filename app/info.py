@@ -1,4 +1,5 @@
 import psutil
+import time
 
 def get_cpu_percent() -> float:
     return psutil.cpu_percent()
@@ -19,12 +20,15 @@ def get_vpn_connections():
     return vpn_connections
 
 def get_network_speed() -> dict:
-    net_io = psutil.net_io_counters()
-    bytes_sent = net_io.bytes_sent
-    bytes_recv = net_io.bytes_recv
+    prev_net_io = psutil.net_io_counters()
+    time.sleep(1)
+    next_net_io = psutil.net_io_counters()
 
-    speed_sent = bytes_sent / 1024
-    speed_recv = bytes_recv / 1024
+    bytes_sent_diff = next_net_io.bytes_sent - prev_net_io.bytes_sent
+    bytes_recv_diff = next_net_io.bytes_recv - prev_net_io.bytes_recv
+
+    speed_sent = bytes_sent_diff / 1024
+    speed_recv = bytes_recv_diff / 1024
 
     if speed_sent > 1024:
         speed_sent /= 1024
