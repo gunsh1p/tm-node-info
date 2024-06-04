@@ -3,11 +3,10 @@ import json
 from info import get_cpu_percent, get_memory_usage, get_connections
 
 def server_program():
-    host = socket.gethostname()
     port = 10100
 
     server_socket = socket.socket()
-    server_socket.bind((host, port))
+    server_socket.bind(('0.0.0.0', port))
 
     server_socket.listen(10)
     while True:
