@@ -1,5 +1,4 @@
 import psutil
-import subprocess
 
 def get_cpu_percent() -> float:
     return psutil.cpu_percent()
@@ -12,6 +11,12 @@ def get_memory_usage() -> tuple:
     
     return (percent, used, total)
 
+def get_vpn_connections():
+    vpn_connections = []
+    for conn in psutil.net_connections('tcp'):
+        if conn.status == 'ESTABLISHED' and conn.laddr.port == 8701:
+            vpn_connections.append(conn)
+    return vpn_connections
+
 def get_connections() -> int:
-    output = subprocess.check_output(["netstat", "-an", "-p", "tcp", "|", "grep", "8701", "|", "grep," "ESTABLISHED", "|", "wc", "-l"])
-    return int(output)
+    return len(get_vpn_connections())
