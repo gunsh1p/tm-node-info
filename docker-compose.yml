@@ -3,3 +3,5 @@ services:
     build: .
     network_mode: host
     restart: always
+    volumes:
+      - '/run/systemd/private:/run/systemd/private'
