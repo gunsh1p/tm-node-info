@@ -15,13 +15,10 @@ while True:
         continue
     try:
         buf = buf.decode()
-        assert buf == "data" or buf == "reboot"
+        assert buf == "data"
     except Exception:
         connection.close()
         continue
-    if buf == "reboot":
-        connection.close()
-        reboot.reboot()
     cpu = get_cpu_percent()
     mem = get_memory_usage()
     net = get_network_usage()
